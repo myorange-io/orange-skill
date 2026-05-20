@@ -34,6 +34,10 @@
 - `app/` 아래에 해당 화면의 페이지(`app/<경로>/page.tsx`)와 필요한 컴포넌트를 만든다.
 - `design/`의 해당 화면을 참고하되 **그대로 복사하지 않는다** — React 컴포넌트와 Tailwind로
   다시 구현한다. Stitch HTML은 출발점일 뿐이다.
+- **스타일은 Tailwind 유틸리티 클래스(`className`)로** 한다. 이 프로젝트는 Tailwind v4라 CSS
+  파서가 엄격하다 — `app/globals.css`는 되도록 손대지 않는다. 첫 줄 `@import "tailwindcss";`는
+  지우지 말고, 그 **뒤에 다른 `@import`(웹폰트 등)를 넣지 않는다** — 빌드가 깨진다. 웹폰트가
+  필요하면 `app/layout.tsx`에서 `next/font/google`을 쓴다 (한국어는 시스템 폰트로도 충분하다).
 - `lib/supabase.ts`의 `supabase` 클라이언트로 데이터를 읽고 쓴다.
 
 ### 3) 사용자 확인

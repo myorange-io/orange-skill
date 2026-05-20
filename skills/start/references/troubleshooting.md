@@ -24,6 +24,15 @@
   - **타입/문법 오류**: 로컬에서 `npm run build`로 재현해 고친다.
 - 고친 뒤 다시 `git push`.
 
+## Parsing CSS source code failed
+
+증상: localhost 화면에 'Build Error — Parsing CSS source code failed'.
+- 원인: `app/globals.css`가 Tailwind v4 CSS 파서에 안 맞음. 가장 흔한 건 `@import "tailwindcss";`
+  **뒤에** 다른 `@import url(...)`(웹폰트 등)를 둔 것 — CSS에서 `@import`는 다른 모든 규칙보다 앞서야 한다.
+- 해결: 그 `@import`를 `@import "tailwindcss";` **위로** 옮긴다. 또는 웹폰트는 `app/layout.tsx`에서
+  `next/font/google`로 불러온다.
+- globals.css에 직접 쓴 커스텀 CSS에 문법 오류가 없는지도 확인한다.
+
 ## gh / vercel 인증 만료
 
 증상: `gh` 또는 `vercel` 명령이 인증 오류.
