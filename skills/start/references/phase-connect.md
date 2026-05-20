@@ -96,7 +96,7 @@ vercel integration add supabase --name <slug>-db \
 npx supabase projects list --output json
 ```
 
-- 출력에서 **방금 만든 프로젝트**(가장 최근 생성, 이름은 보통 `<레포이름>-db`)의 `reference_id`를 찾는다.
+- 출력에서 **방금 만든 프로젝트**(가장 최근 생성, 이름은 보통 `<slug>-db`)의 `reference_id`를 찾는다.
 - 그 ref로 API 키를 가져온다: `npx supabase projects api-keys --project-ref <ref> --output json`
 - 프로젝트 **URL**은 `https://<ref>.supabase.co` 다.
 - **anon 키**는 출력의 `publishable`(또는 `anon`) 키를 쓴다 — 브라우저에서 안전하게 쓰는 공개
@@ -145,7 +145,7 @@ git add -A && git commit -m "Supabase 연결"
 git push
 ```
 
-`PLAN.md`의 진행 체크리스트에서 `- [ ] 연결` 항목을 `- [x]`로 바꾼다.
+`PLAN.md` 진행 체크리스트에서 `Stitch 프로토타입`과 `연결` 항목을 `- [x]`로 바꾼다.
 
 `✅ 연결 완료 — 앱이 인터넷에 떴습니다: <라이브 URL>. 멈춰도 됩니다.` 를 출력한다.
 사용자가 계속하면 구현 단계(같은 폴더의 `phase-build.md`)로 잇는다.
