@@ -39,10 +39,18 @@
 ## Supabase 연동 실패 (`vercel integration add supabase`)
 
 증상: `vercel integration add supabase` 명령이 오류로 끝남.
-- 대시보드로 연결한다: Vercel 대시보드 → 프로젝트 → **Integrations**(또는 Storage) →
-  Marketplace에서 **Supabase** 추가 → 무료 플랜으로 프로젝트 생성/연결.
-- 연결 후 환경변수가 Vercel에 주입됐는지 확인하고, 로컬로 다시 가져온다: `vercel env pull .env.local`.
-- 환경변수가 비어 있으면 (알려진 동기화 버그) 대시보드에서 연동을 제거했다가 다시 추가한다.
+- 대시보드로 프로젝트를 만든다: Vercel 대시보드 → 프로젝트 → **Integrations**(또는 Storage) →
+  Marketplace에서 **Supabase** 추가 → 무료 플랜으로 생성.
+- 프로젝트가 생겼으면 키는 평소대로 Supabase CLI로 가져온다 (아래 항목 참고).
+
+## Supabase 키가 안 가져와짐
+
+증상: `npx supabase projects list` 또는 `... api-keys`가 실패하거나 값이 빈다.
+- **로그인 안 됨** → `npx supabase login` 실행 후 다시 시도한다.
+- **프로젝트가 목록에 없음** → `vercel integration add supabase`가 끝까지 됐는지, Supabase
+  로그인 계정이 Vercel에 연결된 계정과 같은지 확인한다.
+- **최후 수단(대시보드)** → https://supabase.com/dashboard → 프로젝트 → Settings → API에서
+  Project URL과 `anon`(또는 publishable) 키를 복사해 `.env.local`에 넣는다.
 
 ## create-next-app이 멈춤 ("directory contains files")
 

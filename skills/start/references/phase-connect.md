@@ -27,6 +27,7 @@ Stitch 산출물을 `design/` 폴더로 정리한다:
 | `git --version` | Git 미설치 → https://git-scm.com 설치 안내 후 중단 |
 | `gh auth status` | GitHub 미인증 → `gh auth login` 실행 안내 후 중단 |
 | `vercel whoami` | Vercel 미인증 → `vercel login` 실행 안내 후 중단 |
+| `npx supabase projects list` | Supabase 미인증 → `npx supabase login` 실행 안내 후 중단 |
 
 하나라도 실패하면 거기서 멈추고, 사용자가 해결한 뒤 다시 부르도록 안내한다.
 
@@ -70,7 +71,7 @@ vercel --prod              # 첫 배포 → 라이브 URL 출력
 출력된 라이브 URL을 사용자에게 보여준다. (`vercel git connect`가 실패해도 치명적이지 않다 —
 구현 단계에서 `vercel --prod`로 직접 배포하면 된다.)
 
-## 6. Supabase 연결 (Vercel Marketplace)
+## 6. Supabase 연결 + 키 가져오기
 
 Vercel CLI로 Supabase를 프로비저닝한다:
 
@@ -81,22 +82,36 @@ vercel integration add supabase --name <레포이름>-db \
 
 - 무료(Hobby/Free) 플랜을 고른다. 플랜·리전 선택을 물으면 무료 플랜과 가까운 리전을 고른다.
 - 플래그가 불확실하면 `vercel integration add --help`로 확인한다.
-- **이 명령이 실패하면** 같은 폴더의 `troubleshooting.md`에서 'Supabase 연동 실패' 항목을 따라
-  Vercel 대시보드로 연결한다.
+- 명령이 실패하면 같은 폴더의 `troubleshooting.md` 'Supabase 연동 실패' 항목을 본다.
 
-연결되면 Supabase 환경변수가 Vercel 프로젝트에 자동 주입된다. 이를 로컬로 가져온다:
+**키는 Supabase CLI로 직접 가져온다.** `vercel env pull`은 값이 비어 오는 동기화 버그가 잦아
+키 확보용으로 쓰지 않는다 (사전 준비에서 `npx supabase login`을 해 둔 상태여야 한다):
 
 ```bash
-vercel env pull .env.local
+npx supabase projects list --output json
 ```
 
-## 7. Supabase 클라이언트 코드
+- 출력에서 **방금 만든 프로젝트**(가장 최근 생성, 이름은 보통 `<레포이름>-db`)의 `reference_id`를 찾는다.
+- 그 ref로 API 키를 가져온다: `npx supabase projects api-keys --project-ref <ref> --output json`
+- 프로젝트 **URL**은 `https://<ref>.supabase.co` 다.
+- **anon 키**는 출력의 `publishable`(또는 `anon`) 키를 쓴다 — 브라우저에서 안전하게 쓰는 공개
+  키다. `secret`·`service_role` 키는 절대 쓰지 않는다.
+- 로그인 오류가 나면 사용자에게 `npx supabase login` 실행을 안내한 뒤 다시 시도한다.
 
-`.env.local`을 열어 Supabase **URL**과 **anon key** 변수명을 확인한다. Next.js 클라이언트에서
-쓰려면 `NEXT_PUBLIC_` 접두사가 필요하다. 해당 접두사 변수가 없으면:
+## 7. 환경변수와 클라이언트 코드
 
-- `.env.local`에 `NEXT_PUBLIC_SUPABASE_URL`·`NEXT_PUBLIC_SUPABASE_ANON_KEY`를 추가한다.
-- Vercel 프로젝트에도 같은 변수를 추가한다: `vercel env add NEXT_PUBLIC_SUPABASE_URL` 등.
+`.env.local`에 6단계에서 얻은 값으로 아래 두 줄을 쓴다:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://<ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon/publishable 키>
+```
+
+배포된 앱도 동작하려면 **Vercel 프로젝트에도 같은 두 변수**가 올바른 값으로 있어야 한다
+(`NEXT_PUBLIC_` 변수는 빌드 시점에 코드에 박힌다). `vercel env ls`로 확인해 없거나 비었으면
+세 환경(production·preview·development)에 넣는다 — 값은 표준입력으로 넘겨 비대화형으로:
+`printf '%s' '<값>' | vercel env add NEXT_PUBLIC_SUPABASE_URL production` (변수·환경마다 한 번씩).
+이미 있는데 값이 비었으면 `vercel env rm <이름> <환경>` 후 다시 add.
 
 그다음 `lib/supabase.ts`를 만든다:
 
