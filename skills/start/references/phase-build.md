@@ -42,6 +42,9 @@
 - **URL·식별자는 ASCII만 쓴다.** 한글은 화면 표시용으로만 — URL 경로·slug·DB 조회 키에 한글이
   들어가면 URL 인코딩이 꼬여 조회가 깨진다(Supabase 406 등). 한글 이름에서 slug를 만들 땐
   한글을 남기지 말고 짧은 랜덤 ASCII id를 쓴다 (예: `crypto.randomUUID().slice(0, 8)`).
+- **LLM API** — `PLAN.md`가 LLM API 필요라고 하면, LLM 호출은 **서버 라우트**
+  (`app/api/<이름>/route.ts`)에서만 한다 — 비밀 키를 브라우저에 노출하지 않는다. 발급받은 키에
+  맞는 SDK(`@anthropic-ai/sdk` 또는 `openai`)를 설치하고, 화면은 그 라우트를 `fetch`로 호출한다.
 
 ### 3) 사용자 확인
 - localhost:3000의 해당 화면을 사용자가 직접 보게 한다: "이 화면 어때요? 생각대로 됐나요?"

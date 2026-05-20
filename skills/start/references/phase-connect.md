@@ -127,6 +127,10 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon/publishable 키>
 `printf '%s' '<값>' | vercel env add NEXT_PUBLIC_SUPABASE_URL production` (변수·환경마다 한 번씩).
 이미 있는데 값이 비었으면 `vercel env rm <이름> <환경>` 후 다시 add.
 
+`PLAN.md`가 **LLM API 필요**라고 하면, 사용자가 발급받은 LLM API 키를 `.env.local`과 Vercel
+프로젝트에 넣는다 — `ANTHROPIC_API_KEY`(또는 `OPENAI_API_KEY`). **`NEXT_PUBLIC_`을 붙이지
+않는다** — 브라우저에 노출되면 안 되는 서버 전용 키다.
+
 그다음 `lib/supabase.ts`를 만든다:
 
 ```ts
