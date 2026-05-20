@@ -138,9 +138,10 @@ Next.js (App Router, TypeScript) · Tailwind CSS · Supabase · Vercel
 2. 사용자에게 안내한다:
    - https://stitch.withgoogle.com 에 접속해 위 프롬프트를 붙여넣는다.
    - 화면을 생성하고, 마음에 들 때까지 다듬는다.
-   - 각 화면을 **Export → 코드(HTML) 복사** 후 프로젝트의 `design/<화면이름>.html`로 저장한다.
-     (또는 스크린샷을 `design/<화면이름>.png`로 저장.)
-   - 끝나면 돌아와서 아무 메시지나 보내면 이어서 진행한다.
+   - 다 됐으면 Stitch의 **'프로젝트 다운로드'**로 zip 파일을 받는다.
+   - 받은 **zip 파일을 이 프로젝트 폴더 안에 그대로 넣어두고**, 돌아와서 알려준다. 압축은
+     풀지 않아도 된다 — 다음 '연결' 단계에서 Claude가 풀어 `design/` 폴더로 정리한다.
+     (zip을 받기 어려우면 각 화면 스크린샷을 찍어 `design/` 폴더에 넣어도 된다.)
 
 3. 다음을 꼭 알린다:
    - **Stitch 작업은 Claude 사용량을 쓰지 않는다.** 충분히 시간을 들여도 된다.
