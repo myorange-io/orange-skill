@@ -16,6 +16,14 @@
 - 로그인 없는 MVP: Supabase 대시보드 → 테이블 → RLS를 끈다 (또는 켜고 anon에 read/write 정책 추가).
 - 로그인 있는 앱: `auth.uid() = user_id` 정책을 추가한다.
 
+## Supabase 406 오류
+
+증상: Supabase 조회가 406 (Not Acceptable).
+- 보통 `.single()` 쿼리가 **0행 또는 여러 행**을 만났을 때 난다 — 조건에 맞는 행이 정확히
+  하나인지 확인한다.
+- 흔한 원인: **slug·조회 키에 한글이 들어가 URL 인코딩이 꼬임.** slug·식별자는 ASCII만 쓴다
+  (한글 이름은 화면 표시용으로만, 식별자는 랜덤 ASCII id).
+
 ## Vercel 빌드 실패
 
 증상: `git push` 후 Vercel 배포가 실패.

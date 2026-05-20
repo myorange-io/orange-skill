@@ -39,6 +39,9 @@
   지우지 말고, 그 **뒤에 다른 `@import`(웹폰트 등)를 넣지 않는다** — 빌드가 깨진다. 웹폰트가
   필요하면 `app/layout.tsx`에서 `next/font/google`을 쓴다 (한국어는 시스템 폰트로도 충분하다).
 - `lib/supabase.ts`의 `supabase` 클라이언트로 데이터를 읽고 쓴다.
+- **URL·식별자는 ASCII만 쓴다.** 한글은 화면 표시용으로만 — URL 경로·slug·DB 조회 키에 한글이
+  들어가면 URL 인코딩이 꼬여 조회가 깨진다(Supabase 406 등). 한글 이름에서 slug를 만들 땐
+  한글을 남기지 말고 짧은 랜덤 ASCII id를 쓴다 (예: `crypto.randomUUID().slice(0, 8)`).
 
 ### 3) 사용자 확인
 - localhost:3000의 해당 화면을 사용자가 직접 보게 한다: "이 화면 어때요? 생각대로 됐나요?"
