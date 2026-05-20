@@ -60,16 +60,20 @@ gh repo create <레포이름> --source=. --public --push
 
 (비공개로 하려면 `--public` 대신 `--private`.)
 
-## 5. Vercel 배포
+## 5. Vercel 배포 (GitHub 자동배포)
 
-```bash
-vercel link --yes          # 폴더를 Vercel 프로젝트에 연결
-vercel git connect         # GitHub 레포 연결 → 이후 git push마다 자동 배포
-vercel --prod              # 첫 배포 → 라이브 URL 출력
-```
+목표: `git push` → Vercel 자동 빌드·배포. 동작하려면 **Vercel GitHub App**이 필요하다.
 
-출력된 라이브 URL을 사용자에게 보여준다. (`vercel git connect`가 실패해도 치명적이지 않다 —
-구현 단계에서 `vercel --prod`로 직접 배포하면 된다.)
+1. Vercel 프로젝트에 연결한다: `vercel link --yes`
+2. **Vercel GitHub App 확인** — 자동배포의 필수 조건이다.
+   `gh api /user/installations --jq '.installations[].app_slug' 2>/dev/null`의 출력에 `vercel`이
+   있으면 OK. 없거나 확인이 안 되면 사용자에게 https://github.com/apps/vercel 에서 설치하도록
+   안내한다 (브라우저, 1회 — 레포 접근 권한을 허용). 끝나면 이어간다.
+3. GitHub 레포를 Vercel에 연결한다: `vercel git connect --yes`
+4. 첫 배포로 라이브 URL을 받는다: `vercel --prod`
+
+라이브 URL을 사용자에게 보여주고 **"이제 `git push`하면 자동 배포된다"**고 알린다. 나중에
+push해도 배포가 안 되면 같은 폴더 `troubleshooting.md`의 'git push가 자동배포 안 됨'을 본다.
 
 ## 6. Supabase 연결 + 키 가져오기
 

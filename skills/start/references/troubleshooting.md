@@ -47,6 +47,14 @@
 - GitHub: `gh auth login`을 다시 실행한다.
 - Vercel: `vercel login`을 다시 실행한다.
 
+## git push가 자동배포 안 됨
+
+증상: `git push`해도 Vercel에 새 배포가 안 생긴다.
+- 원인 대부분: **Vercel GitHub App**이 GitHub 계정에 없거나 이 레포 접근 권한이 없다.
+- 해결: https://github.com/apps/vercel 에서 App을 설치하고 해당 레포 접근을 허용한다 (이미
+  있으면 Configure에서 레포 추가). 그다음 `vercel git connect --yes`를 다시 실행한다.
+- 급하면 `vercel --prod`로 수동 배포할 수 있지만, 근본 해결은 App 설치다.
+
 ## "테이블이 없습니다" / relation does not exist
 
 증상: Supabase 쿼리가 테이블을 못 찾는다.

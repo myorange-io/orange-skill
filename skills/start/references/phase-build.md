@@ -55,7 +55,8 @@ git add -A && git commit -m "구현: <화면 이름>"
 git push
 ```
 
-`git push`하면 Vercel이 자동 배포한다. (자동 배포가 안 되면 `vercel --prod`.)
+`git push`하면 Vercel이 자동 배포한다. (배포가 안 되면 같은 폴더 `troubleshooting.md`의
+'git push가 자동배포 안 됨' 참고.)
 `PLAN.md` 진행 체크리스트에서 이 화면 항목을 `- [x]`로 바꾼다.
 
 `✅ <화면 이름> 완료 — 저장·배포됨. 멈춰도 됩니다.` 를 출력한다.
