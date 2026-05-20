@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "orange-skill",
+  "version": "1.0.0",
+  "description": "경량 바이브코딩 스킬 팩 — 한 Claude Pro 세션 안에 기획부터 배포까지.",
+  "owner": {
+    "name": "pengdo",
+    "email": "pengdo@myorange.io"
+  },
+  "plugins": [
+    {
+      "name": "orange-skill",
+      "description": "아이디어를 Next.js 웹앱으로 만들어 GitHub·Vercel·Supabase에 배포하는 올인원 바이브코딩 워크플로.",
+      "source": "./",
+      "category": "development"
+    }
+  ]
+}

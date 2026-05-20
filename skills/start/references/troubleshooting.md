@@ -1,0 +1,57 @@
+# 자주 막히는 곳 — 해결 모음
+
+오류가 났을 때만 읽는다. 증상을 찾아 해결책을 따른다.
+
+## env 변수가 안 읽힘 (`undefined`)
+
+증상: `process.env.NEXT_PUBLIC_SUPABASE_URL`이 `undefined`. Supabase 호출이 실패.
+- `.env.local` 파일이 프로젝트 루트에 있는지 확인한다 (이름이 정확히 `.env.local`).
+- 클라이언트(브라우저)에서 쓰는 변수는 이름이 `NEXT_PUBLIC_`으로 시작해야 한다.
+- env 파일을 바꿨으면 개발 서버를 껐다 켠다 (`npm run dev` 재시작). Next.js는 env를 시작할 때만 읽는다.
+
+## Supabase 쿼리가 빈 결과 / 막힘 (RLS)
+
+증상: 테이블에 데이터가 있는데 앱에서 안 보이거나, insert가 조용히 실패.
+- 원인: 테이블에 RLS(Row Level Security)가 켜져 있는데 정책이 없으면 모두 차단된다.
+- 로그인 없는 MVP: Supabase 대시보드 → 테이블 → RLS를 끈다 (또는 켜고 anon에 read/write 정책 추가).
+- 로그인 있는 앱: `auth.uid() = user_id` 정책을 추가한다.
+
+## Vercel 빌드 실패
+
+증상: `git push` 후 Vercel 배포가 실패.
+- Vercel 대시보드의 빌드 로그를 본다. 보통 둘 중 하나다:
+  - **env 변수 누락**: 로컬엔 있는데 Vercel 프로젝트에 없는 변수 → `vercel env add <이름>`로 추가.
+  - **타입/문법 오류**: 로컬에서 `npm run build`로 재현해 고친다.
+- 고친 뒤 다시 `git push`.
+
+## gh / vercel 인증 만료
+
+증상: `gh` 또는 `vercel` 명령이 인증 오류.
+- GitHub: `gh auth login`을 다시 실행한다.
+- Vercel: `vercel login`을 다시 실행한다.
+
+## "테이블이 없습니다" / relation does not exist
+
+증상: Supabase 쿼리가 테이블을 못 찾는다.
+- 테이블 SQL을 Supabase SQL Editor에서 실제로 실행했는지 확인한다.
+- 테이블 이름의 철자가 코드와 정확히 같은지 확인한다 (대소문자 포함).
+
+## Supabase 연동 실패 (`vercel integration add supabase`)
+
+증상: `vercel integration add supabase` 명령이 오류로 끝남.
+- 대시보드로 연결한다: Vercel 대시보드 → 프로젝트 → **Integrations**(또는 Storage) →
+  Marketplace에서 **Supabase** 추가 → 무료 플랜으로 프로젝트 생성/연결.
+- 연결 후 환경변수가 Vercel에 주입됐는지 확인하고, 로컬로 다시 가져온다: `vercel env pull .env.local`.
+- 환경변수가 비어 있으면 (알려진 동기화 버그) 대시보드에서 연동을 제거했다가 다시 추가한다.
+
+## create-next-app이 멈춤 ("directory contains files")
+
+증상: scaffold가 "기존 파일과 충돌" 오류.
+- `phase-connect.md`의 방법대로 **임시 폴더에서 만들어 복사**한다 (`mktemp -d` 사용).
+  현재 폴더에 바로 `create-next-app .`을 하지 않는다.
+
+## 포트 3000이 이미 사용 중
+
+증상: `npm run dev`가 "Port 3000 is in use".
+- 이전 개발 서버가 떠 있다. 그걸 쓰거나, Next.js가 제안하는 다른 포트(3001 등)를 쓴다.
+- 굳이 3000을 비우려면 그 포트의 프로세스를 종료한다: `lsof -ti:3000 | xargs kill`.

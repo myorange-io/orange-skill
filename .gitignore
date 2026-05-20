@@ -1,0 +1,5 @@
+# code-review-graph 로컬 캐시
+.code-review-graph/
+
+# macOS
+.DS_Store
