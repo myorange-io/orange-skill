@@ -177,31 +177,40 @@ Next.js (App Router, TypeScript) · Tailwind CSS · Supabase · Vercel
 
 화면을 코드로 만들기 전에, 사용자가 **눈으로 먼저 확인**하게 한다.
 
-1. 확정된 화면 목록으로 **Stitch 프롬프트를 2개 — 안 A·안 B —** 만든다. 영어로 간결하게,
-   화면별 UI 요소를 적고 UI 텍스트는 한국어로 지정한다. 참고 앱/사이트가 있으면 그 분위기를
-   두 안 모두에 반영한다.
+1. `PLAN.md`를 바탕으로 **Stitch 프롬프트 하나**를 만든다 — 영어, 100~150단어. 막연한
+   형용사 대신 **구체적으로** 쓴다. 아래 순서로 담는다:
+   - **무엇·누구** — 어떤 웹앱이고 누구를 위한 것인지 (한 줄 소개에서).
+   - **화면별로** — 각 화면의 레이아웃과 핵심 UI 요소 (PLAN.md 화면 절의 '보임/동작'을 옮긴다).
+   - **스타일 앵커** — "modern·clean" 같은 형용사만 쓰지 말고 구체적 기준으로: 참고 앱이
+     있으면 "like [참고 앱]", 없으면 색·톤을 직접 지정 ("soft blue accent, white background,
+     rounded corners" 식).
+   - **마무리** — "Responsive web app. All UI text in Korean."
 
-   **A와 B는 한 가지 분명한 축에서 다르게** 만든다 — 보통 레이아웃·구조 (예: 카드형 vs
-   목록·표형, 한 페이지 vs 단계별 폼). 그 앱에 가장 의미 있는 축을 고른다. 색·폰트만 다른
-   두 안은 만들지 않는다 (스타일은 Stitch에서 바로 고칠 수 있어 의미가 작다).
+   완벽을 노리지 않는다 — 좋은 1차 초안이면 충분하다 (나머지는 Stitch에서 다듬는다).
 
-   각 프롬프트 형식:
+   예 — '사내 스터디 신청' 앱(신청 폼 + 신청 현황):
 
    ```
-   Create a web app with these screens:
-   1. [Screen]: [layout, key UI elements]
-   2. ...
-   Style: clean, modern, friendly. Korean language UI labels.
+   Design a responsive web app for "스터디 신청", an internal tool where
+   employees sign up for company study groups. All UI text in Korean.
+
+   Screen 1 — 신청 폼: centered card on a light background, heading "스터디 신청".
+   Fields: 이름 (text), 부서 (select), 관심 스터디 (select). Full-width primary
+   button "신청하기".
+
+   Screen 2 — 신청 현황: admin page, heading "신청 현황". A clean data table
+   (columns: 이름, 부서, 스터디, 신청일) with a search box above it.
+
+   Style: clean and friendly — soft blue accent, white background, rounded
+   corners, generous spacing.
    ```
 
 2. 사용자에게 안내한다:
-   - https://stitch.withgoogle.com 에 접속한다.
-   - **안 A와 안 B를 각각** 붙여넣어 생성한다. Stitch는 프롬프트당 화면을 만든다 — 자동으로
-     여러 개가 나오지 않는다. 참고 앱이 있으면 그 캡처를 프롬프트와 함께 올리면 더 비슷해진다.
-   - **두 결과를 비교해 기획 의도에 더 맞는 쪽을 고른다.** (시간이 빠듯하면 한쪽만 해도 된다.)
-   - 고른 안을 마음에 들 때까지 다듬는다 — 후속 프롬프트로 "더 ~하게" 고치거나 Stitch의
-     변형(Create Variant) 기능을 쓴다.
-   - 다 됐으면 **그 안을 연 상태에서** Stitch의 **'프로젝트 다운로드'**로 zip 파일을 받는다.
+   - https://stitch.withgoogle.com 에 접속해 위 프롬프트를 붙여넣어 생성한다. 참고 앱이
+     있으면 그 캡처를 프롬프트와 함께 올리면 더 비슷하게 나온다.
+   - 결과가 기획 의도와 맞는지 본다. 부족하면 **후속 프롬프트로 "더 ~하게" 고치거나** Stitch의
+     변형(Create Variant) 기능으로 마음에 들 때까지 다듬는다.
+   - 다 됐으면 **그 화면을 연 상태에서** Stitch의 **'프로젝트 다운로드'**로 zip 파일을 받는다.
    - 받은 **zip 파일을 이 프로젝트 폴더 안에 그대로 넣어두고**, 돌아와서 알려준다. 압축은
      풀지 않아도 된다 — 다음 '연결' 단계에서 Claude가 풀어 `design/` 폴더로 정리한다.
      (zip을 받기 어려우면 각 화면 스크린샷을 찍어 `design/` 폴더에 넣어도 된다.)
