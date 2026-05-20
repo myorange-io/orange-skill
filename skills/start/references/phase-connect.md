@@ -98,6 +98,15 @@ npx supabase projects list --output json
   키다. `secret`·`service_role` 키는 절대 쓰지 않는다.
 - 로그인 오류가 나면 사용자에게 `npx supabase login` 실행을 안내한 뒤 다시 시도한다.
 
+이어서 **프로젝트를 link** 한다 (구현 단계의 테이블 생성에 쓴다):
+
+```bash
+echo | npx supabase link --project-ref <ref>
+```
+
+DB 비밀번호를 물으면 빈 값으로 넘어간다 — 테이블 생성은 Management API(`db query --linked`)로
+하므로 비밀번호가 필요 없다 (`echo |`가 그 빈 입력을 넣어 준다).
+
 ## 7. 환경변수와 클라이언트 코드
 
 `.env.local`에 6단계에서 얻은 값으로 아래 두 줄을 쓴다:

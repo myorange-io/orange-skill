@@ -16,9 +16,16 @@
 
 ### 1) 데이터 준비
 이 화면이 쓸 Supabase 테이블이 아직 없으면 만든다.
-- 필요한 테이블의 SQL(`create table ...`)을 작성해 사용자에게 보여준다.
-- 사용자가 Supabase 대시보드 → **SQL Editor**에 붙여넣어 실행하게 한다.
-  (`psql`이 설치돼 있으면 `.env.local`의 `POSTGRES_URL`로 `psql "$POSTGRES_URL"` 직접 실행도 가능.)
+- 필요한 테이블의 SQL(`create table ...`)을 작성해 `supabase/` 폴더에 `.sql` 파일로 저장한다
+  (예: `supabase/001_<테이블>.sql`). 사용자에게도 그 SQL을 보여준다.
+- **CLI로 바로 실행한다** (연결 단계에서 `supabase link`를 해 둔 상태):
+
+  ```bash
+  npx supabase db query --linked --file supabase/001_<테이블>.sql
+  ```
+
+  `db query --linked`는 Management API로 실행되어 DB 비밀번호가 필요 없다. 오류가 나면 같은
+  폴더의 `troubleshooting.md` 'Supabase 테이블 생성 실패' 항목을 본다.
 - 로그인이 필요 없는 앱이면 RLS는 기본값(꺼짐)으로 둔다 — anon 키로 읽고 쓸 수 있다.
   로그인이 있는 앱이면 Supabase Auth(이메일/비밀번호)를 쓰고, 테이블에 `user_id` 컬럼과
   `auth.uid() = user_id` RLS 정책을 둔다.

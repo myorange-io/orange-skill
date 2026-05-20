@@ -52,6 +52,14 @@
 - **최후 수단(대시보드)** → https://supabase.com/dashboard → 프로젝트 → Settings → API에서
   Project URL과 `anon`(또는 publishable) 키를 복사해 `.env.local`에 넣는다.
 
+## Supabase 테이블 생성 실패 (`supabase db query`)
+
+증상: `npx supabase db query --linked`가 오류로 끝남.
+- "project not linked" / ref를 못 찾음 → 프로젝트가 link 안 됨. `echo | npx supabase link --project-ref <ref>`
+  실행 후 다시 시도한다.
+- SQL 문법 오류 → `.sql` 파일 내용을 다시 확인한다.
+- 최후 수단: SQL을 Supabase 대시보드 → SQL Editor에 붙여넣어 직접 실행한다.
+
 ## create-next-app이 멈춤 ("directory contains files")
 
 증상: scaffold가 "기존 파일과 충돌" 오류.
