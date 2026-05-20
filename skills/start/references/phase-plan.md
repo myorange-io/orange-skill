@@ -188,21 +188,65 @@ Next.js (App Router, TypeScript) · Tailwind CSS · Supabase · Vercel
 
    완벽을 노리지 않는다 — 좋은 1차 초안이면 충분하다 (나머지는 Stitch에서 다듬는다).
 
-   예 — '사내 스터디 신청' 앱(신청 폼 + 신청 현황):
+   잘 만든 프롬프트 예시 — 앱 유형별 3가지. 실제 앱에 가장 가까운 것을 본보기로 삼는다.
+
+   **① 신청·목록형 — '스터디 신청'**
 
    ```
-   Design a responsive web app for "스터디 신청", an internal tool where
-   employees sign up for company study groups. All UI text in Korean.
+   Design a responsive web app for "스터디 신청" — an internal tool for
+   employees to sign up for company study groups. All UI text in Korean.
 
-   Screen 1 — 신청 폼: centered card on a light background, heading "스터디 신청".
-   Fields: 이름 (text), 부서 (select), 관심 스터디 (select). Full-width primary
-   button "신청하기".
+   Screen 1 — 신청 폼: a centered form card on a light background. Heading
+   "스터디 신청" with a one-line subtitle. Fields: 이름 (text input),
+   부서 (select), 관심 스터디 (select). A full-width primary button "신청하기".
 
-   Screen 2 — 신청 현황: admin page, heading "신청 현황". A clean data table
-   (columns: 이름, 부서, 스터디, 신청일) with a search box above it.
+   Screen 2 — 신청 현황: an admin page, heading "신청 현황". At the top, a
+   search box and a count label "총 N명 신청". Below, a data table —
+   columns 이름, 부서, 스터디, 신청일.
 
-   Style: clean and friendly — soft blue accent, white background, rounded
+   Style: clean and friendly — white background, soft blue accent, rounded
    corners, generous spacing.
+   ```
+
+   **② 대시보드형 — '동아리 회비 현황'**
+
+   ```
+   Design a responsive web app for "동아리 회비 현황" — a tool for a club
+   treasurer to track and share members' membership-fee payments. All UI
+   text in Korean.
+
+   Screen 1 — 현황 대시보드: heading "회비 현황". A top row of three stat
+   cards: 이번 달 납부율 (%), 납부 완료 인원, 미납 인원. Below, a member
+   list — each row shows 이름, 학번, and a status badge (green "납부 완료"
+   or red "미납").
+
+   Screen 2 — 납부 기록: a centered form card, heading "회비 납부 기록".
+   Fields: 회원 (select), 납부 월 (select), 금액 (number input). A
+   full-width primary button "기록하기".
+
+   Style: clean dashboard look — white background, light-gray cards, soft
+   shadows, rounded corners. Green = paid, red = unpaid.
+   ```
+
+   **③ 챗봇형 — '사내 규정 안내 챗봇'** (단일 화면)
+
+   ```
+   Design a responsive web app for "사내 규정 안내 챗봇" — an AI chatbot
+   where employees ask questions about company rules and HR policies and
+   get answers. All UI text in Korean.
+
+   One main screen — 대화 화면, a clean chat interface like a messaging app.
+   - A top header with the title "사내 규정 봇".
+   - A scrollable conversation area: bot replies as left-aligned bubbles,
+     the user's messages as right-aligned bubbles in an accent color.
+   - Empty state (first load): a short welcome message plus three tappable
+     example-question chips — "연차 어떻게 써요?", "재택근무 규정은?",
+     "경조사 지원이 있나요?".
+   - A fixed bottom input bar: a text field "궁금한 점을 물어보세요" and a
+     send button.
+
+   Style: clean and friendly, white background, soft blue accent for the
+   user bubbles and send button, rounded corners.
    ```
 
 2. 사용자에게 안내한다:
