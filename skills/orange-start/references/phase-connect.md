@@ -17,6 +17,22 @@ Stitch 산출물을 `design/` 폴더로 정리한다:
   phase-plan의 Stitch 안내로 잠깐 돌아간다. 건너뛸 거면 그대로 진행한다 (구현 단계에서
   화면을 글 설명만으로 만든다).
 
+### 디자인 토큰 추출
+
+`design/`에 Stitch 산출물이 있으면, 그 디자인을 한 번 읽어 **재사용 가능한 토큰**으로 정리해
+`PLAN.md`의 `## 디자인` 절을 채운다. 이게 모든 화면을 한 가지 톤으로 묶고, 사용자가 Stitch에서
+본 느낌을 구현까지 지켜 준다. 아래를 적는다:
+
+- 강조색 · 배경색 · 글자색 · 카드/테두리색 — Stitch의 HTML/CSS나 스크린샷에서 실제 색을 딴다.
+- 상태색: 성공 / 경고·오류.
+- 폰트 느낌 · 모서리(radius) · 그림자 · 간격(여백) 경향.
+- 레이아웃 원칙 한 줄 — 예: "중앙 1단 폼", "상단 통계카드 + 아래 리스트".
+
+`design/`이 없으면(Stitch를 건너뜀) `## 디자인`을 네가 직접 무난한 기본값으로 채운다 —
+흰 배경, 부드러운 강조색 하나, 둥근 모서리, 넉넉한 여백. 보라색 그라데이션은 피한다.
+
+채운 `## 디자인`을 사용자에게 한 줄로 요약해 알린다.
+
 ## 2. 사전 점검
 
 다음을 실행해 도구가 준비됐는지 확인한다:
@@ -47,6 +63,71 @@ npm install @supabase/supabase-js
 
 `.gitignore`에 `.env*`가 있는지 확인한다 (create-next-app 기본값에 포함됨). 없으면 추가한다 —
 DB 키가 절대 커밋되지 않게 한다.
+
+### shadcn/ui 설치
+
+검증된 UI 컴포넌트 위에서 화면을 만들면 손으로 짠 마크업보다 결과가 훨씬 깔끔하다 — 입문자
+앱에서 "AI가 대충 만든 티"가 나는 걸 막는 가장 큰 장치다.
+
+```bash
+npx shadcn@latest init --yes
+npx shadcn@latest add button card input label select textarea table badge --yes
+```
+
+- 프롬프트가 뜨면 기본값(New York 스타일, neutral 베이스 색)을 고른다. 비대화형 플래그가
+  불확실하면 `npx shadcn@latest init --help`로 확인한다.
+- 구현 단계에서 컴포넌트가 더 필요하면 그때 `npx shadcn@latest add <이름>`으로 추가한다.
+- 실패하면 같은 폴더 `troubleshooting.md`의 'shadcn/ui 설치 실패'를 본다.
+
+### 디자인 토큰 적용
+
+`PLAN.md` `## 디자인`의 **강조색**과 **모서리(radius)**를 `app/globals.css`의 shadcn CSS
+변수(`--primary`, `--radius`)에 반영한다. **변수 값만** 바꾸고 `@import`·`@theme` 줄은 절대
+건드리지 않는다 — Tailwind v4 파서가 깨진다. 나머지 변수는 shadcn 기본값을 그대로 둔다
+(기본값도 충분히 깔끔하다 — 무리해서 다 바꾸지 않는다).
+
+### 첫 화면 = 브랜드 플레이스홀더
+
+`app/page.tsx`를 기본 Next.js 화면 대신 앱 이름이 보이는 간단한 랜딩으로 바꾼다. 곧 첫
+배포에서 이 화면이 라이브 URL로 뜬다 — 입문자가 자기 앱을 처음 만나는 순간이니 제네릭한
+Next.js 기본 화면을 보여주지 않는다.
+
+```tsx
+export default function Home() {
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center gap-3 p-8 text-center">
+      <h1 className="text-3xl font-bold">[앱 이름]</h1>
+      <p className="text-muted-foreground">[PLAN.md 한 줄 소개]</p>
+      <p className="text-sm text-muted-foreground">곧 만나요</p>
+    </main>
+  )
+}
+```
+
+### CLAUDE.md 작성
+
+프로젝트 루트에 `CLAUDE.md`를 만든다. 이 파일은 자동으로 읽혀, 나중에 세션이 바뀌거나
+사용자가 직접 코드를 고칠 때도 Claude가 같은 규칙을 지키게 한다:
+
+```markdown
+# [앱 이름]
+
+[PLAN.md 한 줄 소개]. Orange Skill로 만든 입문자 MVP다.
+
+## 스택
+Next.js (App Router, TypeScript) · Tailwind CSS v4 · shadcn/ui · Supabase · Vercel
+
+## 규칙
+- 화면·디자인은 `PLAN.md`를 따른다 — 특히 `## 디자인` 토큰과 각 화면의 `상태:` 명세.
+- UI는 `components/ui/`의 shadcn/ui 컴포넌트를 우선 쓴다. 색·모서리는 `app/globals.css`의
+  CSS 변수를 따른다.
+- `app/globals.css`의 `@import` 줄은 건드리지 않는다 (Tailwind v4 파서가 깨진다). 웹폰트는
+  `app/layout.tsx`에서 `next/font/google`로 불러온다.
+- URL 경로·slug·DB 키는 ASCII만 쓴다. 한글은 화면 표시용으로만.
+- Supabase는 `lib/supabase.ts`의 클라이언트로 읽고 쓴다.
+- LLM API 키는 서버 라우트(`app/api/...`)에서만 쓴다 — 브라우저에 노출 금지.
+- `PLAN.md`에 없는 화면·기능을 임의로 더하지 않는다.
+```
 
 ## 4. GitHub 레포 만들기
 

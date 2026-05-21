@@ -10,7 +10,7 @@
 결과물*을 손에 쥐도록.
 
 - **모델** — Sonnet 4.6
-- **스택** — Next.js · Tailwind CSS · Supabase · Vercel (전부 무료 플랜)
+- **스택** — Next.js · Tailwind CSS · shadcn/ui · Supabase · Vercel (전부 무료 플랜)
 - **결과물** — 인터넷에 배포된, 공유 가능한 웹앱 URL
 
 ## 누구를 위한 것
@@ -108,4 +108,4 @@ Claude: [Next.js 스캐폴드 → GitHub·Vercel·Supabase 연결]
 
 ## 라이선스
 
-MIT · v1.2.0
+MIT · v1.3.0

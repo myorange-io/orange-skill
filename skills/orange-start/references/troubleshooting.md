@@ -40,6 +40,8 @@
 - 해결: 그 `@import`를 `@import "tailwindcss";` **위로** 옮긴다. 또는 웹폰트는 `app/layout.tsx`에서
   `next/font/google`로 불러온다.
 - globals.css에 직접 쓴 커스텀 CSS에 문법 오류가 없는지도 확인한다.
+- shadcn가 설정한 `globals.css`에서는 CSS 변수 *값*만 바꾼다 — `@import`·`@theme` 줄의 순서나
+  구조는 그대로 둔다.
 
 ## gh / vercel 인증 만료
 
@@ -90,6 +92,17 @@
 증상: scaffold가 "기존 파일과 충돌" 오류.
 - `phase-connect.md`의 방법대로 **임시 폴더에서 만들어 복사**한다 (`mktemp -d` 사용).
   현재 폴더에 바로 `create-next-app .`을 하지 않는다.
+
+## shadcn/ui 설치 실패
+
+증상: `npx shadcn@latest init` 또는 `add`가 오류로 끝남.
+- `create-next-app`이 끝나고 `npm install`까지 된 폴더에서 실행해야 한다.
+- 프롬프트에서 막히면 기본값(New York 스타일, neutral 베이스)을 고른다. 비대화형 플래그는
+  `npx shadcn@latest init --help`로 확인한다.
+- Tailwind/React 버전 경고가 떠도 대체로 끝까지 진행된다 — `components.json`이 생겼는지로
+  성공을 확인한다.
+- 정 안 되면 shadcn 없이 진행한다 — 화면을 Tailwind 유틸리티 클래스로 직접 만들되,
+  `PLAN.md` `## 디자인` 토큰을 더 엄격히 따라 일관성을 지킨다.
 
 ## 포트 3000이 이미 사용 중
 
