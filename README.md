@@ -38,7 +38,7 @@
 
 1. **터미널에서** Claude Code 실행 — `/plugin`은 채팅용 데스크톱 앱이 아니라 **Claude Code**에서만 됩니다.
 2. 플러그인 설치 (아래 [설치](#설치) 참고).
-3. 새 프로젝트 폴더에서 `/model sonnet` → `/orange-skill:start`.
+3. 새 프로젝트 폴더에서 `/model sonnet` → `/orange-start`.
 4. 안내를 따라가면 됩니다 — 아이디어를 말하고, Stitch에서 화면을 보고, 배포까지.
 
 ## 사전 준비 (수업 전 1회)
@@ -66,7 +66,7 @@
 
 ```
 나:     동아리 회비 납부 현황을 관리하는 도구를 만들고 싶어요.
-나:     /orange-skill:start
+나:     /orange-start
 
 Claude: [지금은 어떻게 하는지·참고 앱을 묻고 — 2~3 라운드로 화면·데이터·앱 이름을 정함]
         [PLAN.md 작성 — 화면별 구성·데이터 모델·로그인/LLM 설정까지 한 페이지로]
@@ -81,21 +81,21 @@ Claude: [Next.js 스캐폴드 → GitHub·Vercel·Supabase 연결]
 ```
 
 명령어 하나로 아이디어에서 배포까지. 막혔거나 사용량이 부족하면 단계 경계에서 멈추고
-`/orange-skill:resume`로 이어가면 됩니다.
+`/orange-resume`로 이어가면 됩니다.
 
 ## 명령어
 
 | 명령어 | 하는 일 |
 |--------|---------|
-| `/orange-skill:start` | 기획 → Stitch → 연결 → 구현 전 과정을 단계적으로 안내 |
-| `/orange-skill:resume` | 진행 중인 프로젝트의 현황 파악 후 이어가기 |
+| `/orange-start` | 기획 → Stitch → 연결 → 구현 전 과정을 단계적으로 안내 |
+| `/orange-resume` | 진행 중인 프로젝트의 현황 파악 후 이어가기 |
 
 ## 세션 관리 (Pro 사용량 팁)
 
 - 진행 상태는 프로젝트 폴더 안 `PLAN.md`와 git 기록에 저장됩니다 — 외부 저장소가 없습니다.
 - 단계가 끝날 때마다 자동으로 저장(commit)됩니다. 세션이 끊겨도 잃는 것이 없습니다.
 - Stitch 프로토타이핑은 Claude 사용량을 쓰지 않습니다 — 좋은 휴식 지점입니다.
-- 사용량이 부족하면 단계 경계에서 멈추고, 다음에 `/orange-skill:resume`로 이어가세요.
+- 사용량이 부족하면 단계 경계에서 멈추고, 다음에 `/orange-resume`로 이어가세요.
 
 ## 강사용 노트
 
@@ -108,4 +108,4 @@ Claude: [Next.js 스캐폴드 → GitHub·Vercel·Supabase 연결]
 
 ## 라이선스
 
-MIT · v1.1.0
+MIT · v1.2.0
