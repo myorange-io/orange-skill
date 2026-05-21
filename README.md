@@ -108,4 +108,4 @@ Claude: [Next.js 스캐폴드 → GitHub·Vercel·Supabase 연결]
 
 ## 라이선스
 
-MIT · v1.3.0
+MIT · v1.4.0

@@ -17,21 +17,18 @@ Stitch 산출물을 `design/` 폴더로 정리한다:
   phase-plan의 Stitch 안내로 잠깐 돌아간다. 건너뛸 거면 그대로 진행한다 (구현 단계에서
   화면을 글 설명만으로 만든다).
 
-### 디자인 토큰 추출
+### 디자인 토큰 다듬기
 
-`design/`에 Stitch 산출물이 있으면, 그 디자인을 한 번 읽어 **재사용 가능한 토큰**으로 정리해
-`PLAN.md`의 `## 디자인` 절을 채운다. 이게 모든 화면을 한 가지 톤으로 묶고, 사용자가 Stitch에서
-본 느낌을 구현까지 지켜 준다. 아래를 적는다:
+`PLAN.md`의 `## 디자인`에는 이미 기본 토큰이 채워져 있다 (기획 단계에서). 이게 디자인의
+바닥선이다. 여기서 할 일은 그 기본값을 Stitch 디자인으로 **다듬는** 것이다:
 
-- 강조색 · 배경색 · 글자색 · 카드/테두리색 — Stitch의 HTML/CSS나 스크린샷에서 실제 색을 딴다.
-- 상태색: 성공 / 경고·오류.
-- 폰트 느낌 · 모서리(radius) · 그림자 · 간격(여백) 경향.
-- 레이아웃 원칙 한 줄 — 예: "중앙 1단 폼", "상단 통계카드 + 아래 리스트".
+- `design/`에 Stitch 산출물이 **있고 기본값보다 나으면**: Stitch의 실제 값으로 `## 디자인`을
+  덮어쓴다. 색은 **Stitch의 HTML/CSS 소스에서 실제 값을 딴다** — 스크린샷뿐이면(zip 없음)
+  눈대중으로 추출하지 말고 기본값을 유지한다. 강조색은 하나로 추린다.
+- `design/`이 **없거나** Stitch 결과가 제네릭·어설프면: `## 디자인` 기본값을 **그대로 둔다.**
+  기본값 자체가 깔끔한 디자인 시스템이다 — 억지로 바꾸지 않는다.
 
-`design/`이 없으면(Stitch를 건너뜀) `## 디자인`을 네가 직접 무난한 기본값으로 채운다 —
-흰 배경, 부드러운 강조색 하나, 둥근 모서리, 넉넉한 여백. 보라색 그라데이션은 피한다.
-
-채운 `## 디자인`을 사용자에게 한 줄로 요약해 알린다.
+최종 `## 디자인`을 사용자에게 한 줄로 요약해 알린다.
 
 ## 2. 사전 점검
 
@@ -79,12 +76,31 @@ npx shadcn@latest add button card input label select textarea table badge --yes
 - 구현 단계에서 컴포넌트가 더 필요하면 그때 `npx shadcn@latest add <이름>`으로 추가한다.
 - 실패하면 같은 폴더 `troubleshooting.md`의 'shadcn/ui 설치 실패'를 본다.
 
-### 디자인 토큰 적용
+### 디자인 토큰 적용 — shadcn 변수가 유일한 출처
 
-`PLAN.md` `## 디자인`의 **강조색**과 **모서리(radius)**를 `app/globals.css`의 shadcn CSS
-변수(`--primary`, `--radius`)에 반영한다. **변수 값만** 바꾸고 `@import`·`@theme` 줄은 절대
-건드리지 않는다 — Tailwind v4 파서가 깨진다. 나머지 변수는 shadcn 기본값을 그대로 둔다
-(기본값도 충분히 깔끔하다 — 무리해서 다 바꾸지 않는다).
+`PLAN.md` `## 디자인`의 색·모서리를 `app/globals.css`의 shadcn CSS 변수에 **전부** 반영한다.
+이렇게 해야 토큰의 출처가 하나(shadcn 변수)로 모이고, 화면마다 색이 어긋나지 않는다:
+
+- 강조색 → `--primary` · 배경 → `--background` · 글자 → `--foreground`
+- 카드/테두리 → `--card`·`--border` · 오류 상태색 → `--destructive` · radius → `--radius`
+- `:root`(라이트 모드)에 반영한다. 색 형식은 globals.css가 쓰는 형식(보통 oklch)에 맞춰
+  변환해 넣는다 — 형식만 맞추고 값은 `## 디자인`을 따른다.
+
+**변수 값만** 바꾼다. `@import`·`@theme` 줄은 절대 건드리지 않는다 (Tailwind v4 파서가 깨진다).
+나머지 변수(`--muted` 등)는 shadcn 기본값을 그대로 둔다.
+
+### 한국어 폰트
+
+`app/layout.tsx`의 본문 폰트를 **Noto Sans KR**로 바꾼다 — create-next-app 기본 폰트는 라틴
+전용이라 한글이 OS 폴백으로 떨어져 의도하지 않은 모양이 된다. `next/font/google`로 불러온다:
+
+```tsx
+import { Noto_Sans_KR } from "next/font/google";
+const notoSansKr = Noto_Sans_KR({ subsets: ["latin"], weight: ["400", "500", "700"] });
+```
+
+`<body>`의 `className`에 `notoSansKr.className`을 넣는다. (Stitch가 특정 폰트를 강하게
+요구할 때만 다른 폰트를 쓴다 — 보통은 Noto Sans KR로 충분하다.)
 
 ### 첫 화면 = 브랜드 플레이스홀더
 
@@ -121,8 +137,8 @@ Next.js (App Router, TypeScript) · Tailwind CSS v4 · shadcn/ui · Supabase · 
 - 화면·디자인은 `PLAN.md`를 따른다 — 특히 `## 디자인` 토큰과 각 화면의 `상태:` 명세.
 - UI는 `components/ui/`의 shadcn/ui 컴포넌트를 우선 쓴다. 색·모서리는 `app/globals.css`의
   CSS 변수를 따른다.
-- `app/globals.css`의 `@import` 줄은 건드리지 않는다 (Tailwind v4 파서가 깨진다). 웹폰트는
-  `app/layout.tsx`에서 `next/font/google`로 불러온다.
+- `app/globals.css`의 `@import` 줄은 건드리지 않는다 (Tailwind v4 파서가 깨진다). 본문 폰트는
+  `app/layout.tsx`에 Noto Sans KR로 설정돼 있다 — 그대로 쓴다.
 - URL 경로·slug·DB 키는 ASCII만 쓴다. 한글은 화면 표시용으로만.
 - Supabase는 `lib/supabase.ts`의 클라이언트로 읽고 쓴다.
 - LLM API 키는 서버 라우트(`app/api/...`)에서만 쓴다 — 브라우저에 노출 금지.
