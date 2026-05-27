@@ -106,6 +106,14 @@ Claude: [Next.js 스캐폴드 → GitHub·Vercel·Supabase 연결]
 - **스킬을 수정했다면** `.claude-plugin/plugin.json`의 `version`을 올린 뒤 푸시하세요. 버전을
   올리지 않으면 수강생이 `/plugin` 업데이트를 해도 변경이 반영되지 않습니다.
 
+## 다음 단계 — 졸업하기
+
+오렌지 스킬은 "첫 앱"까지 데려다 주는 도구입니다. 프로젝트가 커지거나 팀 단위로 운영하기
+시작하면, 더 무거운 도구로 갈아탈 때입니다:
+
+- [Claude Code in Large Codebases — 베스트 프랙티스](https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start) — CLAUDE.md 계층화, hooks, skills, plugins, LSP, MCP, subagents까지 7가지 구성요소
+- [gstack](https://github.com/gstack-dev/gstack) — 풀 워크플로 바이브코딩 도구 (기획·리뷰·QA·배포까지)
+
 ## 라이선스
 
-MIT · v1.5.0
+MIT · v1.6.0

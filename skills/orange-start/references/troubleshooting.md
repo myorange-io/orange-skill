@@ -13,7 +13,12 @@
 
 증상: 테이블에 데이터가 있는데 앱에서 안 보이거나, insert가 조용히 실패.
 - 원인: 테이블에 RLS(Row Level Security)가 켜져 있는데 정책이 없으면 모두 차단된다.
-- 로그인 없는 MVP: Supabase 대시보드 → 테이블 → RLS를 끈다 (또는 켜고 anon에 read/write 정책 추가).
+- **해결은 항상 "정책 추가"다 — RLS를 끄지 않는다.** RLS를 끄면 프로젝트 URL만 알면 누구나
+  read/edit/delete 할 수 있어 Supabase가 보안 경고 메일을 보낸다.
+- 로그인 없는 MVP(공개 데이터): `create policy "anyone can read" on public.<테이블> for select using (true);`
+  쓰기도 공개면 `for insert with check (true)`를 추가한다.
+- 로그인 없는 MVP(비공개 데이터, 폼 제출·관리자 뷰 등): 정책을 두지 말고 쓰기·읽기는 서버 라우트에서
+  `SUPABASE_SERVICE_ROLE_KEY`로 처리한다 (`phase-build.md` 데이터 준비 절 참고).
 - 로그인 있는 앱: `auth.uid() = user_id` 정책을 추가한다.
 
 ## Supabase 406 오류

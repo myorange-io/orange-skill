@@ -26,9 +26,37 @@
 
   `db query --linked`는 Management API로 실행되어 DB 비밀번호가 필요 없다. 오류가 나면 같은
   폴더의 `troubleshooting.md` 'Supabase 테이블 생성 실패' 항목을 본다.
-- `PLAN.md` `## 설정`의 **로그인** 항목을 따른다 — '필요 없음'이면 RLS는 기본값(꺼짐)으로 둬서
-  anon 키로 읽고 쓴다. 로그인이 있으면 Supabase Auth(이메일/비밀번호)를 쓰고, 테이블에
-  `user_id` 컬럼과 `auth.uid() = user_id` RLS 정책을 둔다.
+- **RLS는 항상 켠다 — 예외 없음.** `public` 스키마의 모든 테이블에서 RLS가 꺼져 있으면 프로젝트
+  URL만 알면 누구나 read/edit/delete 할 수 있다(Supabase가 이메일로 경고를 보낸다). 테이블 SQL
+  마지막에 항상 다음을 붙인다:
+
+  ```sql
+  alter table public.<테이블> enable row level security;
+  ```
+
+  그 다음 `PLAN.md` `## 설정`의 **로그인** 항목에 따라 정책을 추가한다:
+  - **로그인 없음 + 공개 데이터**(공개 게시판 등): 명시적 public 정책을 둔다.
+    ```sql
+    create policy "anyone can read" on public.<테이블> for select using (true);
+    create policy "anyone can insert" on public.<테이블> for insert with check (true);
+    -- update/delete는 정책을 두지 않아 anon 키로는 막힌다
+    ```
+  - **로그인 없음 + 비공개 데이터**(폼 제출·신청 접수·관리자 뷰 등 — 사용자는 자기가 넣은 것만
+    보거나 아예 못 봐야 하는 경우): 클라이언트는 RLS로 차단하고 **쓰기·읽기는 서버 라우트**
+    (`app/api/<이름>/route.ts`)에서 `SUPABASE_SERVICE_ROLE_KEY`로 처리한다. service_role 키는
+    `.env.local`에 `SUPABASE_SERVICE_ROLE_KEY=...`로 두고 **`NEXT_PUBLIC_` 접두사를 절대 붙이지
+    않는다**(브라우저 노출 금지). Vercel env에도 똑같이 등록한다.
+    ```sql
+    -- 정책을 두지 않으면 anon은 전부 차단, service_role은 RLS를 우회한다
+    ```
+  - **로그인 있음**: Supabase Auth(이메일/비밀번호)를 쓰고, 테이블에 `user_id` 컬럼과
+    `auth.uid() = user_id` 정책을 둔다.
+    ```sql
+    create policy "owner read" on public.<테이블> for select using (auth.uid() = user_id);
+    create policy "owner write" on public.<테이블> for insert with check (auth.uid() = user_id);
+    create policy "owner update" on public.<테이블> for update using (auth.uid() = user_id);
+    create policy "owner delete" on public.<테이블> for delete using (auth.uid() = user_id);
+    ```
 
 ### 2) 화면 구현
 - `app/` 아래에 해당 화면의 페이지(`app/<경로>/page.tsx`)와 필요한 컴포넌트를 만든다.
@@ -83,6 +111,8 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/<화면 경로>
 - [ ] 본문 글자 대비가 충분하다 (작은 회색 글씨 금지).
 - [ ] 좁은 폭(모바일)에서도 레이아웃이 깨지지 않는다.
 - [ ] `PLAN.md`에 없는 화면·기능을 임의로 더하지 않았다.
+- [ ] 이 화면이 쓰는 모든 `public` 테이블에 RLS가 켜져 있고 정책이 명시돼 있다.
+- [ ] `service_role`(또는 `secret`) 키가 `NEXT_PUBLIC_*`로 노출되지 않았다 — 서버 라우트에서만 쓴다.
 
 **(옵션) 미리보기** — 시각까지 확실히 보려면 Claude Code의 Preview 도구로 화면 스크린샷을 한
 장 찍어 확인할 수 있다. 토큰을 조금 더 쓰므로 필수는 아니다 — 보통은 위 점검과 다음의 사용자
