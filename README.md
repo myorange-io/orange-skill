@@ -89,6 +89,7 @@ Claude: [Next.js 스캐폴드 → GitHub·Vercel·Supabase 연결]
 |--------|---------|
 | `/orange-start` | 기획 → Stitch → 연결 → 구현 전 과정을 단계적으로 안내 |
 | `/orange-resume` | 진행 중인 프로젝트의 현황 파악 후 이어가기 |
+| `/orange-secure` | 공유 전 흔한 보안 구멍 5가지(.env 커밋·키 노출·RLS 등) 점검·수정 |
 
 ## 세션 관리 (Pro 사용량 팁)
 
@@ -116,4 +117,4 @@ Claude: [Next.js 스캐폴드 → GitHub·Vercel·Supabase 연결]
 
 ## 라이선스
 
-MIT · v1.6.0
+MIT · v1.7.0
