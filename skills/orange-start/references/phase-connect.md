@@ -1,10 +1,11 @@
 # 연결 단계 — GitHub · Vercel · Supabase
 
-목표: 빈 Next.js 앱을 만들어 **인터넷에 배포**하고 **데이터베이스까지 연결**한다. 이 단계가
-끝나면 라이브 URL이 생기고, 이후 코드를 푸시할 때마다 자동 배포된다.
+목표: 빈 Next.js 앱을 만들어 **GitHub·Vercel·Supabase에 연결**하고 **자동배포를 준비**한다. 이
+단계가 끝나면 `git push`마다 자동 배포되도록 배선돼 있고, **곧바로 구현 단계로 넘어간다.** 빈
+화면을 먼저 배포해 확인하는 단계는 없다 — 라이브 URL은 화면을 다 만든 뒤 구현 끝에서 받는다.
 
-> 왜 지금 배포하나: Supabase를 Vercel을 통해 연결하려면 Vercel 프로젝트가 먼저 있어야 한다.
-> 그래서 구현 전에 배포 환경을 모두 잡아둔다. 덤으로, 사용자는 몇 분 만에 라이브 URL을 갖는다.
+> 왜 지금 연결까지 하나: Supabase를 Vercel을 통해 연결하려면 Vercel 프로젝트가 먼저 있어야 한다.
+> 그래서 구현 전에 연결·배선만 잡아둔다. 단, **실제 배포(라이브 URL 확인)는 구현이 끝난 뒤**에 한다.
 
 ## 1. Stitch 디자인 정리
 
@@ -144,11 +145,12 @@ const notoSansKr = Noto_Sans_KR({ subsets: ["latin"], weight: ["400", "500", "70
 `<body>`의 `className`에 `notoSansKr.className`을 넣는다. (Stitch가 특정 폰트를 강하게
 요구할 때만 다른 폰트를 쓴다 — 보통은 Noto Sans KR로 충분하다.)
 
-### 첫 화면 = 브랜드 플레이스홀더
+### 임시 홈 화면
 
-`app/page.tsx`를 기본 Next.js 화면 대신 앱 이름이 보이는 간단한 랜딩으로 바꾼다. 곧 첫
-배포에서 이 화면이 라이브 URL로 뜬다 — 입문자가 자기 앱을 처음 만나는 순간이니 제네릭한
-Next.js 기본 화면을 보여주지 않는다.
+`app/page.tsx`를 기본 Next.js 화면 대신 앱 이름이 보이는 간단한 화면으로 바꾼다 —
+create-next-app 기본 화면은 제네릭하니 치워둔다. 이건 스캐폴드가 컴파일되게 하는 **임시
+홈**일 뿐이다 (구현 단계에서 실제 화면으로 대체된다). **이 화면을 따로 배포해 확인하지 않는다
+— 연결이 끝나면 바로 구현으로 넘어간다.**
 
 ```tsx
 export default function Home() {
@@ -200,9 +202,11 @@ gh repo create <slug> --source=. --public --push
 
 (비공개로 하려면 `--public` 대신 `--private`.)
 
-## 5. Vercel 배포 (GitHub 자동배포)
+## 5. Vercel 연결 (GitHub 자동배포 준비)
 
-목표: `git push` → Vercel 자동 빌드·배포. 동작하려면 **Vercel GitHub App**이 필요하다.
+목표: `git push` → Vercel 자동 빌드·배포가 되도록 **연결만** 해둔다. **여기서 빈 화면을 먼저
+배포해 확인하지 않는다** — 실제 배포와 라이브 URL 확인은 화면을 다 만든 뒤 구현 단계 마지막에
+한다. 자동배포가 동작하려면 **Vercel GitHub App**이 필요하다.
 
 1. Vercel 프로젝트에 연결한다 (프로젝트 이름 = slug): `vercel link --yes --project <slug>`
 2. **Vercel GitHub App 확인** — 자동배포의 필수 조건이다.
@@ -210,10 +214,10 @@ gh repo create <slug> --source=. --public --push
    있으면 OK. 없거나 확인이 안 되면 사용자에게 https://github.com/apps/vercel 에서 설치하도록
    안내한다 (브라우저, 1회 — 레포 접근 권한을 허용). 끝나면 이어간다.
 3. GitHub 레포를 Vercel에 연결한다: `vercel git connect --yes`
-4. 첫 배포로 라이브 URL을 받는다: `vercel --prod`
 
-라이브 URL을 사용자에게 보여주고 **"이제 `git push`하면 자동 배포된다"**고 알린다. 나중에
-push해도 배포가 안 되면 같은 폴더 `troubleshooting.md`의 'git push가 자동배포 안 됨'을 본다.
+이걸로 이후 `git push`가 자동 배포된다. **여기서 `vercel --prod`로 먼저 배포하지 않는다** —
+라이브 URL은 구현이 끝난 뒤 확인한다. push해도 배포가 안 되면 같은 폴더 `troubleshooting.md`의
+'git push가 자동배포 안 됨'을 본다.
 
 ## 6. Supabase 연결 + 키 가져오기
 
