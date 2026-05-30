@@ -241,6 +241,11 @@ export const supabase = createClient(
 
 ## 8. 저장하고 마무리
 
+`MEMORY.md`에 '연결' 항목을 한 개 덧붙인다(append, 덮어쓰지 않는다): 스택·배포·DB를 어떻게
+붙였나 / 왜 이 단계에서 배포까지 했나 / 막힌 설정이 있었나(예: Vercel GitHub App, 키 동기화).
+짧게 5~8줄. 형식은 같은 폴더 `memory-log.md`를 따른다. 라이브 URL이 생겼으니 '한눈에 보기'의
+`라이브:` 한 줄을 실제 URL로 바꾼다.
+
 ```bash
 git add -A && git commit -m "Supabase 연결"
 git push

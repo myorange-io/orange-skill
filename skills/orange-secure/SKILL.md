@@ -121,7 +121,17 @@ ls supabase/*.sql 2>/dev/null
 - 수정함: `✅ 보안 문제 N건을 수정했습니다. 라이브 URL을 다시 한 번 확인해 보세요.`
 - 사용자가 수정을 거부함: `⚠️  CRITICAL N건이 남아 있습니다. 공유 전에 꼭 고치세요.`
 
-수정 사항이 있었으면 마지막에 커밋을 권한다:
+`MEMORY.md`가 있으면 '보안 점검' 항목을 **한 개 덧붙인다**(append, 덮어쓰지 않는다):
+점검 결과 / 수정한 항목 / 남은 위험을 짧게(3~5줄). 날짜는 `date +%Y-%m-%d`로 얻는다.
+형식은 `../orange-start/references/memory-log.md` 참고. 예:
+
+```markdown
+### [YYYY-MM-DD] 보안 점검
+- 결과: CRITICAL 1건 발견·수정 (.env가 git에 커밋돼 있었음)
+- 남은 위험: 노출됐던 anon 키 재발급 필요 — 사용자에게 안내함
+```
+
+수정 사항이 있었으면 마지막에 커밋을 권한다 (`MEMORY.md`도 함께 담는다):
 ```bash
 git add -A && git commit -m "보안: 점검 결과 반영" && git push
 ```
