@@ -52,7 +52,7 @@
 | GitHub 계정 + `gh` CLI | https://cli.github.com → 설치 후 `gh auth login` |
 | Vercel 계정 + `vercel` CLI | `npm install -g vercel` → `vercel login` |
 | Vercel GitHub App | https://github.com/apps/vercel 설치 — GitHub→Vercel 자동배포용 (레포 접근 허용) |
-| Supabase 계정 | https://supabase.com 가입 (CLI는 연결 단계에서 자동 설치 — macOS는 Homebrew, Windows는 Scoop. 안내에 따라 `supabase login`만 하면 됩니다) |
+| Supabase | **미리 가입할 필요 없습니다.** 연결 단계에서 Vercel Marketplace가 Supabase 프로젝트를 자동으로 만들고 계정도 이메일로 자동 연결합니다(결제도 Vercel로 묶임). 중간에 `supabase login` 승인 한 번만 있는데 — 이건 새 가입이 아니라 그 자동 연결된 계정으로 SSO 로그인 1회이고, Claude가 크롬으로 대신할 수도 있습니다. CLI도 연결 단계에서 자동 설치됩니다(macOS=Homebrew, Windows=Scoop). |
 | Claude Code (Pro 플랜) | https://claude.com/claude-code |
 
 ## 설치
