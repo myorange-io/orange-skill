@@ -60,6 +60,7 @@
 - 원인 대부분: **Vercel GitHub App**이 GitHub 계정에 없거나 이 레포 접근 권한이 없다.
 - 해결: https://github.com/apps/vercel 에서 App을 설치하고 해당 레포 접근을 허용한다 (이미
   있으면 Configure에서 레포 추가). 그다음 `vercel git connect --yes`를 다시 실행한다.
+  **이 App 설치를 Claude가 크롬으로 대신할 수 있다** — `browser-steps.md` 참고.
 - 급하면 `vercel --prod`로 수동 배포할 수 있지만, 근본 해결은 App 설치다.
 
 ## "테이블이 없습니다" / relation does not exist
@@ -105,6 +106,8 @@
 
   - CLI는 `SUPABASE_ACCESS_TOKEN`이 있으면 그 값을 우선 쓰므로 `supabase login` 없이 동작한다.
   - 이 변수는 토큰(비밀)이다 — `.env.local`이나 코드에 넣지 말고 셸 세션에서만 export 한다.
+- **이 토큰 발급을 Claude가 크롬으로 대신할 수 있다** — `browser-steps.md`의 'Supabase 액세스
+  토큰 발급'을 따른다(연결돼 있으면 사용자는 가만히 있어도 된다).
 
 ## Supabase 키가 안 가져와짐
 
@@ -113,7 +116,8 @@
 - **프로젝트가 목록에 없음** → `vercel integration add supabase`가 끝까지 됐는지, Supabase
   로그인 계정이 Vercel에 연결된 계정과 같은지 확인한다.
 - **최후 수단(대시보드)** → https://supabase.com/dashboard → 프로젝트 → Settings → API에서
-  Project URL과 `anon`(또는 publishable) 키를 복사해 `.env.local`에 넣는다.
+  Project URL과 `anon`(또는 publishable) 키를 복사해 `.env.local`에 넣는다. **이 대시보드
+  작업도 Claude가 크롬으로 대신할 수 있다** — `browser-steps.md`의 'Supabase 대시보드' 참고.
 
 ## Supabase 테이블 생성 실패 (`supabase db query`)
 

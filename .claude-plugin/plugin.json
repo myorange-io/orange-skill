@@ -1,7 +1,7 @@
 {
   "name": "orange-skill",
   "description": "아이디어를 Next.js 웹앱으로 만들어 GitHub·Vercel·Supabase에 배포하는 올인원 바이브코딩 워크플로. 기획 → Stitch 프로토타입 → 연결 → 구현을 한 흐름으로 진행한다.",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "author": {
     "name": "pengdo",
     "email": "pengdo@myorange.io"

@@ -293,6 +293,9 @@ Next.js (App Router, TypeScript) · Tailwind CSS · shadcn/ui · Supabase · Ver
 2. 사용자에게 안내한다:
    - https://stitch.withgoogle.com 에 접속해 위 프롬프트를 붙여넣어 생성한다. 참고 앱이
      있으면 그 캡처를 프롬프트와 함께 올리면 더 비슷하게 나온다.
+   - (선택) 사용자가 원하면 프롬프트 붙여넣기·생성·zip 다운로드는 Claude가 크롬으로 대신할 수
+     있다(`references/browser-steps.md`). 단 **어떤 디자인을 채택할지는 사용자가 눈으로
+     판단한다** — Stitch는 창작 단계라 기본은 사용자가 직접 돌린다(사용량도 아낀다).
    - 결과가 기획 의도와 맞는지 본다. 부족하면 **후속 프롬프트로 "더 ~하게" 고치거나** Stitch의
      변형(Create Variant) 기능으로 마음에 들 때까지 다듬는다.
    - 다 됐으면 **그 화면을 연 상태에서** Stitch의 **'프로젝트 다운로드'**로 zip 파일을 받는다.
