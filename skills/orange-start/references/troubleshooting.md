@@ -77,8 +77,8 @@
 
 ## Supabase 키가 안 가져와짐
 
-증상: `npx supabase projects list` 또는 `... api-keys`가 실패하거나 값이 빈다.
-- **로그인 안 됨** → `npx supabase login` 실행 후 다시 시도한다.
+증상: `supabase projects list` 또는 `... api-keys`가 실패하거나 값이 빈다.
+- **로그인 안 됨** → `supabase login` 실행 후 다시 시도한다.
 - **프로젝트가 목록에 없음** → `vercel integration add supabase`가 끝까지 됐는지, Supabase
   로그인 계정이 Vercel에 연결된 계정과 같은지 확인한다.
 - **최후 수단(대시보드)** → https://supabase.com/dashboard → 프로젝트 → Settings → API에서
@@ -86,8 +86,8 @@
 
 ## Supabase 테이블 생성 실패 (`supabase db query`)
 
-증상: `npx supabase db query --linked`가 오류로 끝남.
-- "project not linked" / ref를 못 찾음 → 프로젝트가 link 안 됨. `echo | npx supabase link --project-ref <ref>`
+증상: `supabase db query --linked`가 오류로 끝남.
+- "project not linked" / ref를 못 찾음 → 프로젝트가 link 안 됨. `echo | supabase link --project-ref <ref>`
   실행 후 다시 시도한다.
 - SQL 문법 오류 → `.sql` 파일 내용을 다시 확인한다.
 - 최후 수단: SQL을 Supabase 대시보드 → SQL Editor에 붙여넣어 직접 실행한다.

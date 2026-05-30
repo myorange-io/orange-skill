@@ -268,18 +268,18 @@ vercel integration add supabase --name <slug>-db \
 - 명령이 실패하면 같은 폴더의 `troubleshooting.md` 'Supabase 연동 실패' 항목을 본다.
 
 **키는 Supabase CLI로 직접 가져온다.** `vercel env pull`은 값이 비어 오는 동기화 버그가 잦아
-키 확보용으로 쓰지 않는다 (사전 준비에서 `npx supabase login`을 해 둔 상태여야 한다):
+키 확보용으로 쓰지 않는다 (2단계에서 `supabase login`을 해 둔 상태여야 한다):
 
 ```bash
-npx supabase projects list --output json
+supabase projects list --output json
 ```
 
 - 출력에서 **방금 만든 프로젝트**(가장 최근 생성, 이름은 보통 `<slug>-db`)의 `reference_id`를 찾는다.
-- 그 ref로 API 키를 가져온다: `npx supabase projects api-keys --project-ref <ref> --output json`
+- 그 ref로 API 키를 가져온다: `supabase projects api-keys --project-ref <ref> --output json`
 - 프로젝트 **URL**은 `https://<ref>.supabase.co` 다.
 - **anon 키**는 출력의 `publishable`(또는 `anon`) 키를 쓴다 — 브라우저에서 안전하게 쓰는 공개
   키다. `secret`·`service_role` 키는 절대 쓰지 않는다.
-- 로그인 오류가 나면 사용자에게 `npx supabase login` 실행을 안내한 뒤 다시 시도한다.
+- 로그인 오류가 나면 사용자에게 `supabase login` 실행을 안내한 뒤 다시 시도한다.
 
 이어서 **프로젝트를 link** 한다 (구현 단계의 테이블 생성에 쓴다):
 

@@ -108,7 +108,7 @@ ls supabase/*.sql 2>/dev/null
    `phase-build.md` "데이터 준비" 절에 시나리오별로 정리돼 있다 — 거기서 골라 붙인다.
 3. 새 SQL을 Supabase에 적용:
    ```bash
-   npx supabase db query --linked --file supabase/<파일>.sql
+   supabase db query --linked --file supabase/<파일>.sql
    ```
 4. **이미 RLS 없이 배포된 상태라면 라이브 DB에도 같은 SQL을 적용해야 한다** — Supabase 대시보드
    SQL Editor에 붙여넣고 실행.
