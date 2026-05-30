@@ -18,6 +18,18 @@ Stitch 산출물을 `design/` 폴더로 정리한다:
   phase-plan의 Stitch 안내로 잠깐 돌아간다. 건너뛸 거면 그대로 진행한다 (구현 단계에서
   화면을 글 설명만으로 만든다).
 
+### 화면 ↔ 디자인 파일 매핑 (구현 정확도의 핵심)
+
+Stitch 결과와 다른 화면이 구현되는 가장 큰 원인은 **빌드할 때 어느 디자인 파일이 그 화면인지
+몰라서** PLAN.md 글 설명만 보고 만들기 때문이다. 그러니 지금 **각 화면이 어느 파일인지** 짝지어
+`PLAN.md`에 박아둔다 (구현 단계가 이걸 보고 정확한 파일을 연다):
+
+- `design/`의 각 파일을 연다. 파일명이 모호하면(`code.html` 등) 내용의 제목·헤딩을 보고 어떤
+  화면인지 식별한다.
+- 식별한 파일을 `PLAN.md` `## 화면`의 각 화면 항목에 `디자인:` 한 줄로 적는다.
+  예: `- 디자인: design/screen-2-list.html` (해당 파일이 없으면 `디자인: 없음`).
+- 어느 파일이 어느 화면인지 애매하면 사용자에게 한 번 확인한다 ("이 화면이 [파일명] 맞나요?").
+
 ### PLAN.md와 맞춰보기 — Stitch에서 늘거나 바뀐 게 없나
 
 사용자는 Stitch에서 화면을 다듬다가 **새 화면·기능을 추가**하거나 **화면 구성을 바꾸는** 경우가
@@ -89,10 +101,18 @@ AskUserQuestion으로 묶는다):
 
 이 넷 중 하나라도 실패하면 거기서 멈추고, 사용자가 해결한 뒤 다시 부르도록 안내한다.
 
-### Supabase CLI 자동 설치
+### Supabase CLI 자동 설치 (macOS·Windows)
 
-`supabase --version`으로 확인한다. **이미 있으면 이 절을 건너뛴다.** 없으면 아래 순서로 설치한다
-(macOS·Homebrew 기준 — 수강생 환경):
+`supabase --version`으로 확인한다. **이미 있으면 이 절을 건너뛴다.** 없으면 **먼저 OS를
+판별**한 뒤 해당 절차로 설치한다:
+
+```bash
+uname -s   # Darwin = macOS · MINGW*/MSYS*/CYGWIN* = Windows(Git Bash) · Linux = 리눅스
+```
+
+(`uname`이 없으면 Windows다. PowerShell/명령 프롬프트 환경일 수 있다.)
+
+#### macOS — Homebrew
 
 1. **Homebrew 확인.** `brew --version`이 실패하면 Homebrew부터 설치한다. 이 설치는 **사용자
    비밀번호 입력과 Enter 확인을 요구**하니, 시작 전에 "Homebrew를 설치할게요 — 터미널에 암호를
@@ -108,19 +128,38 @@ AskUserQuestion으로 묶는다):
    eval "$(/opt/homebrew/bin/brew shellenv)"
    ```
 
-2. **Supabase CLI 설치:**
+2. **Supabase CLI 설치:** `brew install supabase/tap/supabase`
+3. `supabase --version`으로 확인한다.
 
-   ```bash
-   brew install supabase/tap/supabase
+#### Windows — Scoop
+
+Windows는 Supabase가 공식 지원하는 **Scoop**으로 설치한다. Scoop 명령은 **PowerShell**에서
+돌아간다 — 사용자에게 "PowerShell 창에서 아래를 실행해 주세요"라고 안내하고, 끝나면 돌아오게 한다.
+
+1. **Scoop 확인.** `scoop --version`이 안 되면 PowerShell에서 Scoop을 먼저 설치하도록 안내한다:
+
+   ```powershell
+   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force
+   irm get.scoop.sh | iex
    ```
 
-3. `supabase --version`으로 설치를 확인한다.
+2. **Supabase CLI 설치** (PowerShell):
 
-설치가 끝나면 **로그인 확인**: `supabase projects list`가 미인증으로 실패하면 `supabase login`을
-실행하도록 안내한다 (브라우저로 토큰 인증, 1회). 이 명령이 성공해야 6단계에서 키를 가져올 수 있다.
+   ```powershell
+   scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
+   scoop install supabase
+   ```
 
-> Homebrew를 못 쓰는 환경(Windows 등)이면 https://supabase.com/docs/guides/cli 의 안내로 설치하고,
-> 정 안 되면 임시로 `npx supabase`(느리지만 동작)로 진행한다.
+3. 설치 후 **새 터미널에서** `supabase --version`으로 확인한다 (PATH 반영을 위해 터미널을 새로 연다).
+   Scoop이 막히면 https://github.com/supabase/cli/releases 에서 `.exe`를 받아 PATH에 넣어도 된다.
+
+#### 공통 — 로그인 확인
+
+설치가 끝나면 `supabase projects list`가 미인증으로 실패하면 `supabase login`을 실행하도록
+안내한다 (브라우저로 토큰 인증, 1회). 이 명령이 성공해야 6단계에서 키를 가져올 수 있다.
+
+> 어느 방법도 안 되면 임시로 `npx supabase`(느리지만 동작)로 진행한다 — 단, 이후 모든
+> `supabase ...` 명령을 `npx supabase ...`로 바꿔 실행해야 한다.
 
 ## 3. Next.js 앱 만들기 (scaffold)
 
