@@ -73,9 +73,12 @@ AskUserQuestion으로 묶는다):
 
 최종 `## 디자인`을 사용자에게 한 줄로 요약해 알린다.
 
-## 2. 사전 점검
+## 2. 사전 점검·자동 설치
 
-다음을 실행해 도구가 준비됐는지 확인한다:
+먼저 도구를 점검한다. **Supabase CLI는 없으면 자동으로 설치한다** (수강생이 가장 자주 막히는
+지점이다 — `npx supabase`는 버전·네트워크 문제로 불안정해서, 전역 설치해 쓰는 게 안정적이다).
+
+### 도구 점검 (없으면 안내 후 중단)
 
 | 명령어 | 실패하면 |
 |--------|----------|
@@ -83,9 +86,41 @@ AskUserQuestion으로 묶는다):
 | `git --version` | Git 미설치 → https://git-scm.com 설치 안내 후 중단 |
 | `gh auth status` | GitHub 미인증 → `gh auth login` 실행 안내 후 중단 |
 | `vercel whoami` | Vercel 미인증 → `vercel login` 실행 안내 후 중단 |
-| `npx supabase projects list` | Supabase 미인증 → `npx supabase login` 실행 안내 후 중단 |
 
-하나라도 실패하면 거기서 멈추고, 사용자가 해결한 뒤 다시 부르도록 안내한다.
+이 넷 중 하나라도 실패하면 거기서 멈추고, 사용자가 해결한 뒤 다시 부르도록 안내한다.
+
+### Supabase CLI 자동 설치
+
+`supabase --version`으로 확인한다. **이미 있으면 이 절을 건너뛴다.** 없으면 아래 순서로 설치한다
+(macOS·Homebrew 기준 — 수강생 환경):
+
+1. **Homebrew 확인.** `brew --version`이 실패하면 Homebrew부터 설치한다. 이 설치는 **사용자
+   비밀번호 입력과 Enter 확인을 요구**하니, 시작 전에 "Homebrew를 설치할게요 — 터미널에 암호를
+   입력하고 안내에 따라 Enter를 눌러 주세요"라고 알린다:
+
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+   설치 후 PATH에 반영한다. Apple Silicon(M1~)은 보통 다음이 필요하다 — 안내하고 실행한다:
+
+   ```bash
+   eval "$(/opt/homebrew/bin/brew shellenv)"
+   ```
+
+2. **Supabase CLI 설치:**
+
+   ```bash
+   brew install supabase/tap/supabase
+   ```
+
+3. `supabase --version`으로 설치를 확인한다.
+
+설치가 끝나면 **로그인 확인**: `supabase projects list`가 미인증으로 실패하면 `supabase login`을
+실행하도록 안내한다 (브라우저로 토큰 인증, 1회). 이 명령이 성공해야 6단계에서 키를 가져올 수 있다.
+
+> Homebrew를 못 쓰는 환경(Windows 등)이면 https://supabase.com/docs/guides/cli 의 안내로 설치하고,
+> 정 안 되면 임시로 `npx supabase`(느리지만 동작)로 진행한다.
 
 ## 3. Next.js 앱 만들기 (scaffold)
 
@@ -249,7 +284,7 @@ npx supabase projects list --output json
 이어서 **프로젝트를 link** 한다 (구현 단계의 테이블 생성에 쓴다):
 
 ```bash
-echo | npx supabase link --project-ref <ref>
+echo | supabase link --project-ref <ref>
 ```
 
 DB 비밀번호를 물으면 빈 값으로 넘어간다 — 테이블 생성은 Management API(`db query --linked`)로

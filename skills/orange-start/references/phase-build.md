@@ -21,7 +21,7 @@
 - **CLI로 바로 실행한다** (연결 단계에서 `supabase link`를 해 둔 상태):
 
   ```bash
-  npx supabase db query --linked --file supabase/001_<테이블>.sql
+  supabase db query --linked --file supabase/001_<테이블>.sql
   ```
 
   `db query --linked`는 Management API로 실행되어 DB 비밀번호가 필요 없다. 오류가 나면 같은

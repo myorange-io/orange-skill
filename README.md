@@ -52,7 +52,7 @@
 | GitHub 계정 + `gh` CLI | https://cli.github.com → 설치 후 `gh auth login` |
 | Vercel 계정 + `vercel` CLI | `npm install -g vercel` → `vercel login` |
 | Vercel GitHub App | https://github.com/apps/vercel 설치 — GitHub→Vercel 자동배포용 (레포 접근 허용) |
-| Supabase 계정 | https://supabase.com 가입 → 터미널에서 `npx supabase login` |
+| Supabase 계정 | https://supabase.com 가입 (CLI는 연결 단계에서 Homebrew로 자동 설치 — 안내에 따라 `supabase login`만 하면 됩니다) |
 | Claude Code (Pro 플랜) | https://claude.com/claude-code |
 
 ## 설치
