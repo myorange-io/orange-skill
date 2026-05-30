@@ -75,6 +75,37 @@
   Marketplace에서 **Supabase** 추가 → 무료 플랜으로 생성.
 - 프로젝트가 생겼으면 키는 평소대로 Supabase CLI로 가져온다 (아래 항목 참고).
 
+## Supabase 무료 프로젝트 한도 초과 (새 프로젝트가 안 만들어짐)
+
+증상: `vercel integration add supabase` 또는 대시보드에서 새 프로젝트 생성이 막힌다 —
+"free plan project limit" / "organization has reached its project limit" 류 메시지.
+- 원인: Supabase 무료 플랜은 **조직(계정)당 활성 프로젝트 2개**까지다. 이전 실습·다른 앱으로
+  이미 2개를 만들었으면 더 못 만든다.
+- 해결(권장): https://supabase.com/dashboard 에서 **안 쓰는 기존 프로젝트를 일시정지(pause)
+  하거나 삭제**한 뒤 다시 만든다. (삭제 전 데이터가 필요 없는지 확인.)
+- 해결(대안): 다른 Supabase 계정으로 로그인해 거기서 프로젝트를 만든다 — 단, 그 경우
+  `supabase login`도 그 계정으로 다시 해야 하고 키도 그 계정 프로젝트에서 가져온다.
+- **예방**: 수업·실습 전에 안 쓰는 옛 프로젝트를 미리 정리해 한도를 비워 둔다.
+
+## Supabase login이 토큰을 저장 못 함 (계속 미인증)
+
+증상: `supabase login`을 분명히 했는데 `supabase projects list` 등이 계속 "not logged in" /
+미인증으로 떨어진다. 로그인 → 명령 실패 → 다시 로그인이 반복된다.
+- 원인: CLI가 OS 키체인/설정 경로에 액세스 토큰을 저장하지 못하는 환경 버그가 있다 (권한·
+  키체인 접근 거부 등).
+- 해결: 브라우저에서 토큰을 직접 발급해 **환경변수로 넘긴다** — 토큰 저장을 우회한다.
+  1. https://supabase.com/dashboard/account/tokens 에서 **Generate new token**으로 액세스
+     토큰을 만든다 (한 번 생성하면 다시 안 보이니 복사해 둔다).
+  2. 그 값을 환경변수로 내보낸 뒤 같은 셸에서 `supabase` 명령을 쓴다:
+
+     ```bash
+     export SUPABASE_ACCESS_TOKEN=<발급받은 토큰>
+     supabase projects list   # 이제 인증됨
+     ```
+
+  - CLI는 `SUPABASE_ACCESS_TOKEN`이 있으면 그 값을 우선 쓰므로 `supabase login` 없이 동작한다.
+  - 이 변수는 토큰(비밀)이다 — `.env.local`이나 코드에 넣지 말고 셸 세션에서만 export 한다.
+
 ## Supabase 키가 안 가져와짐
 
 증상: `supabase projects list` 또는 `... api-keys`가 실패하거나 값이 빈다.
@@ -92,6 +123,22 @@
 - SQL 문법 오류 → `.sql` 파일 내용을 다시 확인한다.
 - 최후 수단: SQL을 Supabase 대시보드 → SQL Editor에 붙여넣어 직접 실행한다.
 
+## npm install이 깨짐 / 빌드가 "module not found" (optional deps 버그)
+
+증상: `npm install`은 끝났는데 `npm run dev`/`build`가 네이티브 모듈을 못 찾는다. 메시지에
+`@next/swc-darwin-arm64`, `lightningcss.darwin-arm64.node`, `@rollup/rollup-*` 같은
+**플랫폼 전용 바이너리**가 없다고 나온다.
+- 원인: npm의 알려진 optional dependencies 버그다 — `package-lock.json`이 있거나 캐시가
+  꼬이면 현재 CPU(Apple Silicon = arm64)에 맞는 바이너리를 건너뛰고 설치한다.
+- 해결: `node_modules`와 lock 파일을 지우고 **완전히 다시 설치**한다.
+
+  ```bash
+  rm -rf node_modules package-lock.json
+  npm install
+  ```
+
+- 그래도 같으면 npm 캐시를 비우고 다시: `npm cache clean --force && npm install`.
+
 ## create-next-app이 멈춤 ("directory contains files")
 
 증상: scaffold가 "기존 파일과 충돌" 오류.
@@ -108,6 +155,21 @@
   성공을 확인한다.
 - 정 안 되면 shadcn 없이 진행한다 — 화면을 Tailwind 유틸리티 클래스로 직접 만들되,
   `PLAN.md` `## 디자인` 토큰을 더 엄격히 따라 일관성을 지킨다.
+
+## shadcn 컴포넌트가 빌드 깨짐 / `asChild`가 안 먹음 (비기본 스타일)
+
+증상: shadcn 설치는 됐는데 ① `Cannot find module '@base-ui/react'`(또는 `@radix-ui/*`) 같은
+모듈 없음 오류가 나거나, ② `<Button asChild>`로 `Link`를 감쌌는데 스타일이 안 먹거나 깨진다.
+- 원인: **기본(New York / neutral) 대신 다른 스타일**(예: base-nova)을 골랐을 때다. 그런
+  스타일은 `@base-ui/react` 등 **추가 패키지**를 따로 깔아야 하고, 일부는 `asChild` prop을
+  지원하지 않는다.
+- **권장 해결**: 이 워크플로는 **기본 스타일(New York, neutral 베이스)**을 쓰도록 돼 있다.
+  비기본 스타일에서 막혔으면 기본으로 다시 init 하는 게 가장 깔끔하다.
+- 그 스타일을 유지해야 한다면:
+  - **누락 패키지**: 오류에 나온 패키지를 그대로 설치한다 — 예: `npm install @base-ui/react`.
+  - **`asChild` 미지원**: `asChild`로 감싸지 말고, **링크에 버튼 클래스를 직접 준다.**
+    예: `<Link href="..." className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-primary-foreground">…</Link>`.
+    (Stitch 디자인의 버튼 스타일을 토큰 클래스로 옮기면 일관성이 유지된다.)
 
 ## 포트 3000이 이미 사용 중
 

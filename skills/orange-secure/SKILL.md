@@ -122,13 +122,19 @@ ls supabase/*.sql 2>/dev/null
 - 사용자가 수정을 거부함: `⚠️  CRITICAL N건이 남아 있습니다. 공유 전에 꼭 고치세요.`
 
 `MEMORY.md`가 있으면 '보안 점검' 항목을 **한 개 덧붙인다**(append, 덮어쓰지 않는다):
-점검 결과 / 수정한 항목 / 남은 위험을 짧게(3~5줄). 날짜는 `date +%Y-%m-%d`로 얻는다.
+점검한 항목 / 결과 / 수정한 것과 **어떻게 고쳤는지** / 남은 위험과 **그렇게 판단한 근거**를
+구체적으로 적는다 (나중에 같은 점검을 다시 할 때 기준이 된다). 날짜는 `date +%Y-%m-%d`로 얻는다.
 형식은 `../orange-start/references/memory-log.md` 참고. 예:
 
 ```markdown
 ### [YYYY-MM-DD] 보안 점검
-- 결과: CRITICAL 1건 발견·수정 (.env가 git에 커밋돼 있었음)
-- 남은 위험: 노출됐던 anon 키 재발급 필요 — 사용자에게 안내함
+- **점검 항목**: .env git 커밋 여부 · NEXT_PUBLIC 키 노출 · 하드코딩 비밀 키 ·
+  service_role 클라이언트 사용 · RLS 활성화
+- **결과**: CRITICAL 1건 발견·수정. `.env.local`이 git에 커밋돼 있었다 →
+  `git rm --cached .env.local` 후 `.gitignore`에 `.env*` 추가, 커밋.
+- **남은 위험**: 한 번 커밋돼 노출됐던 anon 키는 git 히스토리에 남아 있다 →
+  Supabase 대시보드에서 키 재발급이 안전하다고 사용자에게 안내함.
+- **배운 것**: anon 키는 공개돼도 RLS가 막아 주지만, 히스토리에 남는 건 별개 문제다.
 ```
 
 수정 사항이 있었으면 마지막에 커밋을 권한다 (`MEMORY.md`도 함께 담는다):
