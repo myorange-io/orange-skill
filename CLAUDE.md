@@ -1,4 +1,4 @@
-# orange-skill 릴리스 규칙
+# orange-build 릴리스 규칙
 
 버전을 올릴 때는 **반드시 아래 두 파일의 `version` 필드를 함께 수정**한다.
 

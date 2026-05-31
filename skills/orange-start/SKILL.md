@@ -1,9 +1,9 @@
 ---
 name: orange-start
-description: 아이디어를 Next.js 웹앱으로 만들어 GitHub·Vercel·Supabase에 배포까지 안내하는 올인원 바이브코딩 스킬. 기획 → Stitch 프로토타입 → 연결 → 구현을 한 흐름으로 진행한다. "바이브코딩 시작", "새 프로젝트 만들고 싶어", "아이디어를 앱으로", "오렌지 스킬 시작" 같은 요청에 사용.
+description: 아이디어를 Next.js 웹앱으로 만들어 GitHub·Vercel·Supabase에 배포까지 안내하는 올인원 바이브코딩 스킬. 기획 → Stitch 프로토타입 → 연결 → 구현을 한 흐름으로 진행한다. "바이브코딩 시작", "새 프로젝트 만들고 싶어", "아이디어를 앱으로", "오렌지 빌드 시작" 같은 요청에 사용.
 ---
 
-# Orange Skill — Start
+# Orange Build — Start
 
 바이브코딩 입문자를 **아이디어에서 배포된 웹앱까지** 안내하는 올인원 워크플로다.
 사용자는 Claude Pro 플랜을 쓰는 수강생이다 — 사용량이 한정돼 있으니 토큰을 아끼고,

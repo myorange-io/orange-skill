@@ -260,7 +260,7 @@ export default function Home() {
 ```markdown
 # [앱 이름]
 
-[PLAN.md 한 줄 소개]. Orange Skill로 만든 입문자 MVP다.
+[PLAN.md 한 줄 소개]. Orange Build로 만든 입문자 MVP다.
 
 ## 스택
 Next.js (App Router, TypeScript) · Tailwind CSS v4 · shadcn/ui · Supabase · Vercel

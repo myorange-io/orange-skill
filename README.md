@@ -1,11 +1,11 @@
-# Orange Skill
+# Orange Build
 
 > 아이디어 하나를 **한 번의 Claude Pro 세션** 안에 기획 → 구현 → 배포까지. 바이브코딩 입문자를 위한 경량 Claude Code 플러그인.
 
 바이브코딩 입문자는 늘 같은 벽에 부딪힙니다 — `gstack` 같은 풀 워크플로 도구는 강력하지만,
 기획 단계만으로 Claude Pro 사용량을 거의 다 써 버립니다. 정작 만들고 배포할 사용량이 안 남습니다.
 
-**Orange Skill은 그 워크플로를 약 10배 가볍게 다시 설계했습니다.** 텔레메트리·서브에이전트·과한
+**Orange Build는 그 워크플로를 약 10배 가볍게 다시 설계했습니다.** 텔레메트리·서브에이전트·과한
 질문을 걷어내고 — 명령어 하나로 아이디어에서 배포된 웹앱까지, 입문자가 한 세션 안에 *진짜
 결과물*을 손에 쥐도록.
 
@@ -61,7 +61,7 @@
 
 ```
 /plugin marketplace add myorange-io/orange-skill
-/plugin install orange-skill@orange-skill
+/plugin install orange-build@orange-build
 ```
 
 ## 이렇게 동작합니다
@@ -112,7 +112,7 @@ Claude: [Next.js 스캐폴드 → GitHub·Vercel·Supabase 연결 (자동배포 
 
 ## 다음 단계 — 졸업하기
 
-오렌지 스킬은 "첫 앱"까지 데려다 주는 도구입니다. 프로젝트가 커지거나 팀 단위로 운영하기
+오렌지 빌드는 "첫 앱"까지 데려다 주는 도구입니다. 프로젝트가 커지거나 팀 단위로 운영하기
 시작하면, 더 무거운 도구로 갈아탈 때입니다:
 
 - [Claude Code in Large Codebases — 베스트 프랙티스](https://claude.com/blog/how-claude-code-works-in-large-codebases-best-practices-and-where-to-start) — CLAUDE.md 계층화, hooks, skills, plugins, LSP, MCP, subagents까지 7가지 구성요소
