@@ -60,7 +60,7 @@
 터미널 Claude Code 안에서:
 
 ```
-/plugin marketplace add myorange-io/orange-skill
+/plugin marketplace add myorange-io/orange-build
 /plugin install orange-build@orange-build
 ```
 
