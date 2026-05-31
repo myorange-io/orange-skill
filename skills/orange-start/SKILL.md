@@ -13,8 +13,9 @@ description: 아이디어를 Next.js 웹앱으로 만들어 GitHub·Vercel·Supa
 
 ## 시작 전
 
-1. **모델 확인** — 이 작업은 Sonnet 4.6에서 진행한다. 모델이 Sonnet이 아니면 사용자에게
-   `/model sonnet` 실행을 권한다. (Opus는 사용량을 빨리 소진한다.)
+1. **모델 확인** — 이 작업은 Sonnet 최신 버전에서 진행한다. 모델이 Sonnet이 아니면 사용자에게
+   `/model sonnet` 실행을 권한다 (`/model sonnet`은 늘 최신 Sonnet을 선택한다). (Opus는
+   사용량을 빨리 소진한다.)
 2. 사용자에게 전체 흐름을 한 번 보여준다:
 
    ```
